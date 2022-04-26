@@ -1,0 +1,3 @@
+# -*- coding: utf-8 -*-
+
+GLOBAL_SETTING_ENV_NAME = 'BEACON_WEB_SETTINGS'
