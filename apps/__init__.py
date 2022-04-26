@@ -39,6 +39,10 @@ def create_app(config, enable_config_file=False):
     # register blueprint
     register_blueprint(app)
 
+    # 日志
+    from common.utils.logging import create_logger
+    create_logger(app)
+
     return app
 
 
