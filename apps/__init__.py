@@ -43,6 +43,10 @@ def create_app(config, enable_config_file=False):
     from common.utils.logging import create_logger
     create_logger(app)
 
+    # DB
+    from common.models import db
+    db.init_app(app)
+
     return app
 
 
