@@ -13,7 +13,7 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_ECHO = True
 
     # 日志
-    LOGGING_LEVEL = 'DEBUG'
+    LOGGING_LEVEL = 'INFO'
     LOGGING_FILE_DIR = '/tmp/logs'
     LOGGING_FILE_MAX_BYTES = 30 * 1024 * 1024
     LOGGING_FILE_BACKUP = 2
