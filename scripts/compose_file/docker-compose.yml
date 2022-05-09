@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  beacon-server:
+    build:
+      ../../
+    restart: always
+    volumes:
+      - ../../../beacon_server:/server
+    ports:
+      - 59003:59003
+    extra_hosts:
+      - "beacon.com:119.3.52.192"
+    command: sh /server/scripts/entrypoint/entrypoint_dev.sh

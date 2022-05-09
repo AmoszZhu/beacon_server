@@ -77,7 +77,7 @@ def register_user():
             },
             "response": "successful",
             "msg": "0"
-        }
+        }, 201
     except Exception as e:
         current_app.logger.error(e)
         error_msg["msg"] = "Database exception"
