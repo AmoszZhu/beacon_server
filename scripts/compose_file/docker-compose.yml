@@ -9,7 +9,7 @@ services:
       - ../../../beacon_server:/server
     ports:
       - "59001:59001"
-      - "59003:59003"
+      - "59000:59000"
     extra_hosts:
       - "beacon.com:119.3.52.192"
     command: sh /server/scripts/entrypoint/entrypoint_dev.sh

@@ -1,3 +1,3 @@
 #! /bin/bash
 
-/usr/local/nginx/sbin/nginx -c /home/admin/code/beacon_server/scripts/nginx/nginx.conf
+/usr/local/nginx/sbin/nginx -c ~/code/beacon_server/scripts/nginx/nginx.conf
