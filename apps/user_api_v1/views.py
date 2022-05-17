@@ -145,6 +145,24 @@ def login():
             "msg": 0
         }
 
+    if request.method == "PUT":
+        # 刷新token
+        if g.user_id is not None and g.is_refresh is True:
+            token, refresh_token = generate_token(g.user_id, refresh=False)
+            return {
+                "data": {
+                    "token": token
+                },
+                "response": "success",
+                "msg": "0"
+            }, 200
+        else:
+            return {
+                "data": None,
+                "response": "failed",
+                "msg": "Invalid refresh token"
+            }, 403
+
 
 @user_bp.route('/test')
 @login_required
