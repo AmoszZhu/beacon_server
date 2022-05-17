@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from flask import request, current_app
+from flask import request, current_app, g
 from sqlalchemy import or_
 
 from . import user_api_v1 as user_bp
 from common.models.user import User
 from common.models import db
+from common.utils.jwt_util import generate_token
+from common.utils.decorators import login_required
 
 
 @user_bp.route('/register', methods=["POST"])
@@ -82,3 +84,71 @@ def register_user():
         current_app.logger.error(e)
         error_msg["msg"] = "Database exception"
         return error_msg, 400
+
+
+@user_bp.route('/login', methods=["POST", "PUT"])
+def login():
+    """
+    登录和刷新token
+    :return:
+    """
+    error_msg = {
+        "data": None,
+        "response": "failed",
+        "msg": ""
+    }
+
+    if request.method == "POST":
+        # 获取用户登录信息
+        try:
+            request_body = request.json
+        except Exception as e:
+            current_app.logger.error(e)
+            error_msg["msg"] = "Lack of body"
+            return error_msg, 400
+
+        # 检验用户信息
+        user_name = request_body.get("user_name", None)
+        password = request_body.get("password", None)
+
+        if not all([user_name, password]):
+            error_msg["msg"] = "Lack of parameter"
+            return error_msg, 400
+
+        # 检查用户是否存在
+        try:
+            user_list = User.query.filter(User.name == user_name).all()
+        except Exception as e:
+            current_app.logger.error(e)
+            error_msg["msg"] = "Database except"
+            return error_msg, 400
+
+        # 如果用户不存在
+        if not user_list:
+            error_msg["msg"] = "User is not exist"
+            return error_msg, 400
+
+        user = user_list[0]
+        # 验证密码
+        if password != user.password:
+            error_msg["msg"] = "Password is wrong, please try again"
+            return error_msg, 400
+
+        token, refresh_token = generate_token(user.id)
+
+        return {
+            "data": {
+                "token": token,
+                "refresh_token": refresh_token
+            },
+            "response": "success",
+            "msg": 0
+        }
+
+
+@user_bp.route('/test')
+@login_required
+def test():
+    print(g.user_id)
+
+    return "Demo"

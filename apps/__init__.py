@@ -4,6 +4,8 @@ from flask import Flask
 from werkzeug.utils import import_string
 import os
 
+from common.utils.middlewares import jwt_authentication
+
 
 def create_flask_app(config, enable_config_file=False):
     """
@@ -46,6 +48,9 @@ def create_app(config, enable_config_file=False):
     # DB
     from common.models import db
     db.init_app(app)
+
+    # 添加请求钩子
+    app.before_request(jwt_authentication)
 
     return app
 

@@ -18,3 +18,7 @@ class DevConfig(BaseConfig):
     LOGGING_FILE_MAX_BYTES = 30 * 1024 * 1024
     LOGGING_FILE_BACKUP = 2
 
+    # JWT
+    JWT_SECRET = 'TPmi4aLWRbyVq8zu9v82dWYW17/z+UvRnYTt4P6fAXAasd2'
+    JWT_EXPIRY_HOURS = 2
+    JWT_REFRESH_DAYS = 14
