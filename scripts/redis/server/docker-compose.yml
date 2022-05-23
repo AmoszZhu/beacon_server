@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  redis-server-master:
+    image: redis:4.0.12
+    container_name: redis-server-master
+    restart: always
+    networks:
+      - redis_server
+    ports:
+      - "6379:6379"
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+  redis-server-slave-1:
+    image: redis:4.0.12
+    container_name: redis-server-salve-1
+    restart: always
+    networks:
+      - redis_server
+    ports:
+      - "6380:6380"
+    depends_on:
+      - redis-server-master
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+  redis-server-slave-2:
+    image: redis:4.0.12
+    container_name: redis-server-salve-2
+    restart: always
+    networks:
+      - redis_server
+    ports:
+      - "6381:6381"
+    depends_on:
+      - redis-server-master
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+
+networks:
+  redis_server:
+    driver: bridge
