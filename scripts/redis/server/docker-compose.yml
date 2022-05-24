@@ -16,7 +16,7 @@ services:
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
   redis-server-slave-1:
     image: redis:4.0.12
-    container_name: redis-server-salve-1
+    container_name: redis-server-slave-1
     restart: always
     networks:
       - redis_server
@@ -30,7 +30,7 @@ services:
       - ./redis-master.conf:/usr/local/etc/redis/redis.conf
   redis-server-slave-2:
     image: redis:4.0.12
-    container_name: redis-server-salve-2
+    container_name: redis-server-slave-2
     restart: always
     networks:
       - redis_server
