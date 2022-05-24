@@ -27,7 +27,7 @@ services:
     restart: always
     network_mode: host
     volumes:
-      - ./redis-sentinel-2.conf:/usr/local/etc/redis/redis-sentinel.conf
+      - ./redis-sentinel-3.conf:/usr/local/etc/redis/redis-sentinel.conf
     environment:
       TZ: "Asia/Shanghai"
     command: [ "redis-sentinel", "/usr/local/etc/redis/redis-sentinel.conf" ]
