@@ -3,6 +3,8 @@
 from flask import Flask
 from werkzeug.utils import import_string
 import os
+from redis.sentinel import Sentinel
+from rediscluster import StrictRedisCluster
 
 from common.utils.middlewares import jwt_authentication
 
@@ -51,6 +53,13 @@ def create_app(config, enable_config_file=False):
 
     # 添加请求钩子
     app.before_request(jwt_authentication)
+
+    # redis
+    _sentinel = Sentinel(app.config['REDIS_SENTINELS'])
+    app.redis_master = _sentinel.master_for(app.config['REDIS_SENTINEL_SERVICE_NAME'], password="zj122900")
+    app.redis_slave = _sentinel.slave_for(app.config['REDIS_SENTINEL_SERVICE_NAME'], password="zj122900")
+
+    app.redis_cluster = StrictRedisCluster(startup_nodes=app.config['REDIS_CLUSTER'], decode_responses=True, password="zj122900")
 
     return app
 

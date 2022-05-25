@@ -22,3 +22,18 @@ class DevConfig(BaseConfig):
     JWT_SECRET = 'TPmi4aLWRbyVq8zu9v82dWYW17/z+UvRnYTt4P6fAXAasd2'
     JWT_EXPIRY_HOURS = 2
     JWT_REFRESH_DAYS = 14
+
+    # redis sentinel
+    REDIS_SENTINELS = [
+        ('119.3.52.192', '26379'),
+        ('119.3.52.192', '26380'),
+        ('119.3.52.192', '26381'),
+    ]
+    REDIS_SENTINEL_SERVICE_NAME = 'local-master'
+
+    # redis cluster
+    REDIS_CLUSTER = [
+        {'host': '119.3.52.192', 'port': '6379'},
+        {'host': '119.3.52.192', 'port': '6380'},
+        {'host': '119.3.52.192', 'port': '6381'},
+    ]
