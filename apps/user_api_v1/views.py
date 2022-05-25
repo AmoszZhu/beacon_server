@@ -166,7 +166,7 @@ def login():
 
 
 @user_bp.route('/user/<int:user_id>')
-# @login_required
+@login_required
 def obtain_user_info(user_id):
     """
     获取用户的信息
@@ -178,33 +178,24 @@ def obtain_user_info(user_id):
         "msg": ""
     }
 
-    r = current_app.redis_cluster
-    try:
-        ret = r.get(user_id)
-        current_app.logger.info(ret)
-    except Exception as e:
-        current_app.logger.error(e)
+    # 使用缓存查询
+    user_cache = UserCache(user_id)
 
-    return "test"
+    # 判读用户是否存在
+    is_exists = user_cache.is_user_exists()
+    if not is_exists:
+        error_msg["msg"] = "Invalid user"
+        return error_msg, 400
 
-    # # 使用缓存查询
-    # user_cache = UserCache(user_id)
-    #
-    # # 判读用户是否存在
-    # is_exists = user_cache.is_user_exists()
-    # if not is_exists:
-    #     error_msg["msg"] = "Invalid user"
-    #     return error_msg, 400
-    #
-    # user_data = user_cache.get()
-    #
-    # user_data["id"] = user_id
-    #
-    # return {
-    #     "data": user_data,
-    #     "response": "success",
-    #     "msg": "0"
-    # }
+    user_data = user_cache.get()
+
+    user_data["id"] = user_id
+
+    return {
+        "data": user_data,
+        "response": "success",
+        "msg": "0"
+    }
 
 
 @user_bp.route('/test')
