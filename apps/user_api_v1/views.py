@@ -8,6 +8,7 @@ from common.models.user import User
 from common.models import db
 from common.utils.jwt_util import generate_token
 from common.utils.decorators import login_required
+from common.cache.user import UserCache
 
 
 @user_bp.route('/register', methods=["POST"])
@@ -164,9 +165,48 @@ def login():
             }, 403
 
 
-@user_bp.route('/test')
-@login_required
-def test():
-    print(g.user_id)
+@user_bp.route('/user/<int:user_id>')
+# @login_required
+def obtain_user_info(user_id):
+    """
+    获取用户的信息
+    :user_id: 用户id
+    """
+    error_msg = {
+        "data": None,
+        "response": "failed",
+        "msg": ""
+    }
 
+    r = current_app.redis_cluster
+    try:
+        ret = r.get(user_id)
+        current_app.logger.info(ret)
+    except Exception as e:
+        current_app.logger.error(e)
+
+    return "test"
+
+    # # 使用缓存查询
+    # user_cache = UserCache(user_id)
+    #
+    # # 判读用户是否存在
+    # is_exists = user_cache.is_user_exists()
+    # if not is_exists:
+    #     error_msg["msg"] = "Invalid user"
+    #     return error_msg, 400
+    #
+    # user_data = user_cache.get()
+    #
+    # user_data["id"] = user_id
+    #
+    # return {
+    #     "data": user_data,
+    #     "response": "success",
+    #     "msg": "0"
+    # }
+
+
+@user_bp.route('/test')
+def test():
     return "Demo"
