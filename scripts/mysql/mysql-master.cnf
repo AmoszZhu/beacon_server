@@ -1,0 +1,30 @@
+[mysqld]
+
+; 设置server_id，在同一局域网中需要唯一
+server_id = 1
+
+; 指定不需要同步的数据库名称
+binlog-ignore-db = mysql
+
+; 指定需要同步的数据库
+; binlog-do-db=db1
+
+; 开启二进制日志功能
+log-bin = mysql-bin
+
+; 数据库时区
+default-time_zone='+8:00'
+
+; 设置二进制日志使用内存大小（事务）
+binlog_cache_size=1M
+
+; 设置使用的二进制日志格式（row-行级别；statement=语句级别；mixed-混合级别）
+binlog_format=mixed
+
+; 二进制日志过期清理时间。默认为0，表示不自动清理
+expire_logs_days=7
+
+log-slave-updates = 1
+
+datadir = /var/lib/mysql
+pid-file=/var/run/mysqld/mysqld.pid
