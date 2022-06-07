@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
+#
+# db = SQLAlchemy()
 
-db = SQLAlchemy()
+from .db_routing.routing_sqlalchemy import RoutingSQLAlchemy
+
+db = RoutingSQLAlchemy()

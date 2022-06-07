@@ -13,8 +13,3 @@ if [ "$1" = "stop" ]; then
 fi
 
 exit 0
-
-
-#CREATE USER 'slave'@'%' IDENTIFIED BY '';
-#GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'slave'@'%';
-#change master to master_host='', master_user='slave', master_password='', master_port=3306, master_log_file='mysql-bin.000001', master_log_pos=609, master_connect_retry=30;
